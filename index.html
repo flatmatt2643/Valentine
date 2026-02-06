@@ -37,7 +37,7 @@
 
     .buttons {
       position: relative;
-      height: 120px;
+      height: 140px;
     }
 
     button {
@@ -63,7 +63,7 @@
       position: absolute;
       background-color: #b0b0b0;
       color: white;
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease, left 0.15s ease, top 0.15s ease;
       user-select: none;
     }
   </style>
@@ -73,7 +73,6 @@
   <div class="container">
     <h1 id="question">Will you be my Valentine? 🥺👉👈</h1>
 
-    <!-- Begging GIF -->
     <img
       id="gif"
       src="https://media.giphy.com/media/ZyPbHP9qk86GY/giphy.gif"
@@ -98,12 +97,14 @@
       "HEY 😳",
       "RUDE",
       "PLS",
-      "That’s illegal",
-      "Try again 😈",
+      "Stop 😅",
+      "Try again",
       "Nice try",
-      "Absolutely not",
-      "You’re persistent huh"
+      "Still no",
+      "Why tho"
     ];
+
+    let scale = 1;
 
     function moveNoButton() {
       const padding = 20;
@@ -111,56 +112,31 @@
       const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
       const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
 
+      scale = Math.max(scale - 0.08, 0.45); // never disappear
+
       noBtn.style.left = `${x}px`;
       noBtn.style.top = `${y}px`;
-
-      const rotate = Math.random() * 360;
-      const scale = Math.random() * 0.6 + 0.5;
-
-      noBtn.style.transform = `rotate(${rotate}deg) scale(${scale})`;
+      noBtn.style.transform = `scale(${scale})`;
 
       noBtn.textContent =
         noTexts[Math.floor(Math.random() * noTexts.length)];
-
-      noBtn.animate(
-        [
-          { transform: "translateX(0px)" },
-          { transform: "translateX(-8px)" },
-          { transform: "translateX(8px)" },
-          { transform: "translateX(0px)" }
-        ],
-        { duration: 200 }
-      );
     }
 
-    // Dodge before cursor reaches it
+    // Dodge behavior
     noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn.addEventListener("mouseover", moveNoButton);
 
-    // Mobile chaos
+    // Mobile
     noBtn.addEventListener("touchstart", (e) => {
       e.preventDefault();
       moveNoButton();
     });
 
-    // Occasionally fake becoming YES
-    setInterval(() => {
-      if (Math.random() < 0.15) {
-        noBtn.textContent = "Yes 💕";
-        setTimeout(() => {
-          noBtn.textContent = "SIKE 😈";
-          moveNoButton();
-        }, 400);
-      }
-    }, 2000);
-
     // YES CLICK ❤️
     yesBtn.addEventListener("click", () => {
       question.textContent = "YAY!!! 💖 I knew you'd say yes 😍";
-
       gif.src = "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif";
-
-      noBtn.remove();
+      noBtn.style.transform = "scale(0.4)";
       yesBtn.style.transform = "scale(1.4)";
     });
   </script>
