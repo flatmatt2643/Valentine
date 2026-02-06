@@ -37,7 +37,7 @@
 
     .buttons {
       position: relative;
-      height: 100px;
+      height: 120px;
     }
 
     button {
@@ -46,13 +46,13 @@
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      transition: transform 0.2s ease;
     }
 
     #yesBtn {
       background-color: #ff4d6d;
       color: white;
       margin-right: 20px;
+      transition: transform 0.2s ease;
     }
 
     #yesBtn:hover {
@@ -63,6 +63,8 @@
       position: absolute;
       background-color: #b0b0b0;
       color: white;
+      transition: all 0.15s ease;
+      user-select: none;
     }
   </style>
 </head>
@@ -74,7 +76,7 @@
     <!-- Begging GIF -->
     <img
       id="gif"
-      src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3R0NmNhdG90M3g0ZXpxZzFpdXo0dHltZ2o2dHk3NnM5ZmF1a2g1aiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZyPbHP9qk86GY/giphy.gif"
+      src="https://media.giphy.com/media/ZyPbHP9qk86GY/giphy.gif"
       alt="Begging puppy"
     />
 
@@ -84,91 +86,83 @@
     </div>
   </div>
 
-   <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const gif = document.getElementById("gif");
-  const question = document.getElementById("question");
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const gif = document.getElementById("gif");
+    const question = document.getElementById("question");
 
-  const noTexts = [
-    "NOPE 😭",
-    "WAIT",
-    "HEY 😳",
-    "RUDE",
-    "PLS",
-    "That’s illegal",
-    "Try again 😈",
-    "Nice try",
-    "Absolutely not",
-    "You’re persistent huh"
-  ];
+    const noTexts = [
+      "NOPE 😭",
+      "WAIT",
+      "HEY 😳",
+      "RUDE",
+      "PLS",
+      "That’s illegal",
+      "Try again 😈",
+      "Nice try",
+      "Absolutely not",
+      "You’re persistent huh"
+    ];
 
-  function moveNoButton() {
-    const padding = 20;
+    function moveNoButton() {
+      const padding = 20;
 
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
 
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
 
-    // Random rotation + scale
-    const rotate = Math.random() * 360;
-    const scale = Math.random() * 0.6 + 0.5;
+      const rotate = Math.random() * 360;
+      const scale = Math.random() * 0.6 + 0.5;
 
-    noBtn.style.transform = `rotate(${rotate}deg) scale(${scale})`;
+      noBtn.style.transform = `rotate(${rotate}deg) scale(${scale})`;
 
-    // Change text
-    noBtn.textContent =
-      noTexts[Math.floor(Math.random() * noTexts.length)];
+      noBtn.textContent =
+        noTexts[Math.floor(Math.random() * noTexts.length)];
 
-    // Brief shake effect
-    noBtn.animate(
-      [
-        { transform: "translateX(0px)" },
-        { transform: "translateX(-8px)" },
-        { transform: "translateX(8px)" },
-        { transform: "translateX(0px)" }
-      ],
-      { duration: 200 }
-    );
-  }
-
-  // Dodge BEFORE cursor reaches it
-  noBtn.addEventListener("mouseenter", moveNoButton);
-
-  // Dodge aggressively on hover attempt
-  noBtn.addEventListener("mouseover", moveNoButton);
-
-  // Dodge on mobile taps
-  noBtn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    moveNoButton();
-  });
-
-  // Occasionally fake becoming YES
-  setInterval(() => {
-    if (Math.random() < 0.15) {
-      noBtn.textContent = "Yes 💕";
-      setTimeout(() => {
-        noBtn.textContent = "SIKE 😈";
-        moveNoButton();
-      }, 400);
+      noBtn.animate(
+        [
+          { transform: "translateX(0px)" },
+          { transform: "translateX(-8px)" },
+          { transform: "translateX(8px)" },
+          { transform: "translateX(0px)" }
+        ],
+        { duration: 200 }
+      );
     }
-  }, 2000);
 
-  // YES CLICK ❤️
-  yesBtn.addEventListener("click", () => {
-    question.textContent = "YAY!!! 💖 I knew you'd say yes 😍";
+    // Dodge before cursor reaches it
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("mouseover", moveNoButton);
 
-    gif.src =
-      "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif";
-
-    noBtn.remove();
-    yesBtn.style.transform = "scale(1.4)";
-  });
-</script>
-
+    // Mobile chaos
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
     });
+
+    // Occasionally fake becoming YES
+    setInterval(() => {
+      if (Math.random() < 0.15) {
+        noBtn.textContent = "Yes 💕";
+        setTimeout(() => {
+          noBtn.textContent = "SIKE 😈";
+          moveNoButton();
+        }, 400);
+      }
+    }, 2000);
+
+    // YES CLICK ❤️
+    yesBtn.addEventListener("click", () => {
+      question.textContent = "YAY!!! 💖 I knew you'd say yes 😍";
+
+      gif.src = "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif";
+
+      noBtn.remove();
+      yesBtn.style.transform = "scale(1.4)";
+    });
+  </script>
 </body>
 </html>
